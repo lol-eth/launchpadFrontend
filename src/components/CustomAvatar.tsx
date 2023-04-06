@@ -10,7 +10,7 @@ function CustomAvatar({ size }:any) {
     if (info?.walletAddress === account?.address) {
       setUserInfo(info);
     }
-  }, [account]);
+  }, [account?.address]);
   return userInfo?.userLogo ? (
     <img
       src={userInfo?.userLogo}

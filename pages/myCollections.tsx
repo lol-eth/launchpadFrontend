@@ -18,7 +18,7 @@ export default function MyCollections() {
       // logined get List
       setUserInfo(info);
       queryCollections({ userId: info?.id }).then((res) => {
-        console.log('res', res);
+        setCollections(res);
       });
     } else {
       Router.push('/signup');
@@ -100,24 +100,25 @@ export default function MyCollections() {
             }}
           >
             {collections?.map((c) => (
-              <Grid item xs={4} key={c}>
+              <Grid item xs={4} key={c?.id}>
                 <Box
                   sx={{
                     background: '#fff',
                     mr: 2,
                     mt: 2,
                     p: 2,
+                    cursor: 'pointer',
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    Router.push(`/collectionInfo?cid=${c}`);
+                    Router.push(`/collectionInfo?cid=${c?.id}`);
                   }}
                 >
                   <Box sx={{ position: 'relative' }}>
                     <Box
                       component="img"
-                      src="/watercolour.png"
-                      alt="test"
+                      src={c?.imgUrl}
+                      alt="imgUrl"
                       sx={{
                         maxWidth: '100%',
                       }}
@@ -127,9 +128,10 @@ export default function MyCollections() {
                       bottom: 10,
                       left: 0,
                       p: 2,
+                      fontSize: 20,
                     }}
                     >
-                      name
+                      {c?.collectionName}
                     </Typography>
                   </Box>
                   <Box sx={{ px: 2 }}>

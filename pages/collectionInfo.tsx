@@ -1,17 +1,20 @@
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import { Grid } from '@mui/material';
-import Link from '../src/components/Link';
-import bgimg from '../public/watercolour.png';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
+import { useAccount } from 'wagmi';
+import {
+  Grid, Container, Typography, Box,
+} from '@mui/material';
+import { queryCollections } from '../src/services/launchpad';
+import HorizontalLinearStepper from '../src/components/HorizontalLinearStepper';
 
-const clist = [1, 2, 3, 4, 5, 6];
 export default function Signup() {
+  const [collection, setCollection] = useState<any>({});
+  useEffect(() => {
+    queryCollections({ id: 5 }).then((res) => {
+      console.log('res', res);
+      setCollection(res?.[4] || {});
+    });
+  }, []);
   return (
     <Container
       maxWidth="lg"
@@ -31,7 +34,7 @@ export default function Signup() {
             <Box sx={{ p: 4, background: '#fff' }}>
               <Box
                 component="img"
-                src="/watercolour.png"
+                src={collection?.imgUrl}
                 alt="test"
                 sx={{
                   maxWidth: '100%',
@@ -41,7 +44,7 @@ export default function Signup() {
           </Grid>
           <Grid item xs={7}>
             <Box sx={{ m: 4 }}>
-              <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'left' }}>Collection Name</Typography>
+              <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'left' }}>{collection?.collectionName}</Typography>
               <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -50,7 +53,7 @@ export default function Signup() {
               >
                 <Box
                   component="img"
-                  src="/watercolour.png"
+                  src={collection?.imgUrl}
                   alt="test"
                   sx={{
                     width: '40px',
@@ -67,26 +70,20 @@ export default function Signup() {
                     ml: 2,
                   }}
                 >
-                  Creator Name
+                  {collection?.userName || 'userName'}
                 </Typography>
               </Box>
               <Typography variant="body1" component="p" gutterBottom sx={{ textAlign: 'left' }}>
                 9999999 Minted
               </Typography>
               <Typography variant="body1" component="p" gutterBottom sx={{ textAlign: 'left' }}>
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
-                Description here Description here Description here Description here
+                {collection?.description}
               </Typography>
             </Box>
           </Grid>
+          <Box sx={{ width: '80%', mt: 6, marginLeft: '10%' }}>
+            <HorizontalLinearStepper />
+          </Box>
         </Grid>
       </Box>
     </Container>

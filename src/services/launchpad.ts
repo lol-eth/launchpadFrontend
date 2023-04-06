@@ -20,9 +20,9 @@ export const queryCollections = async (params: any) => {
   }
 };
 
-export const signIn = async (params: any) => {
+export const createCollection = async (params: any) => {
   try {
-    const response = await fetch(`${BASE_URL}userAccount/login`, {
+    const response = await fetch(`${BASE_URL}launchpad/addLaunchpad`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const signIn = async (params: any) => {
     });
     const result = await response.json();
     if (result?.success) {
-      return result?.data;
+      return 'success';
     }
     return '';
   } catch (error) {
