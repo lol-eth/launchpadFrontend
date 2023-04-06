@@ -4,7 +4,7 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider, getDefaultWallets, darkTheme } from '@rainbow-me/rainbowkit';
 import {
   configureChains, createClient, WagmiConfig, useAccount,
 } from 'wagmi';
@@ -21,6 +21,7 @@ import Header from '../src/components/Header';
 import createEmotionCache from '../src/components/createEmotionCache';
 import theme from '../src/theme';
 import { signIn } from '../src/services/account';
+import CustomAvatar from '../src/components/CustomAvatar';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 // watercolour.png
@@ -77,7 +78,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
+        <RainbowKitProvider chains={chains} theme={darkTheme()} avatar={CustomAvatar}>
           <Box sx={{
             background: 'url(watercolour.png) no-repeat',
             backgroundSize: '100% 100%',

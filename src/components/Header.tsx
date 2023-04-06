@@ -4,6 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 function Header() {
   return (
     <Box
+      className="connect-btn"
       sx={{
         position: 'fixed',
         left: 0,
@@ -11,11 +12,16 @@ function Header() {
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-end',
-        px: 2,
-        py: 1,
+        px: 4,
+        py: 2,
+        div: {
+          button: {
+            background: '#000 !important',
+          },
+        },
       }}
     >
-      <ConnectButton />
+      <ConnectButton label="Wallet" showBalance={false} />
     </Box>
   );
 }
