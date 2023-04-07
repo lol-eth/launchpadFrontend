@@ -16,8 +16,9 @@ import { toast } from 'react-toastify';
 import { useAccount } from 'wagmi';
 import Router, { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import { ArrowBack } from '@mui/icons-material';
 import { uploadImage } from '../src/services/account';
-import { createCollection, queryCollections, updateCollection } from '../src/services/launchpad';
+import { queryCollections, updateCollection } from '../src/services/launchpad';
 import { CollectionStatusMap, CollectionStatus } from '../src/config/constant';
 import UploadBanner from '../src/components/UploadBanner';
 import UploadArtwork from '../src/components/UploadArtwork';
@@ -34,7 +35,7 @@ export default function EditCollection() {
       symbol: '',
       description: '',
       collectionName: '',
-      price: 0,
+      price: 1,
       royalties: 0,
       publicStartTime: Date.now(),
       publicEndTime: Date.now(),
@@ -111,6 +112,7 @@ export default function EditCollection() {
     formik.setValues({
       ...formData?.[0],
       royalties: (formData?.[0]?.royalties || 0) * 100,
+      price: 1,
     });
     setImageUrl(formData?.[0]?.bannerUrl);
     setArtImageUrl(formData?.[0]?.imgUrl);
@@ -146,12 +148,9 @@ export default function EditCollection() {
           width: 640,
           display: 'flex',
           flexDirection: 'column',
-          mt: 6,
+          mt: 14,
         }}
       >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Back
-        </Typography>
         <Box>
           <Box sx={{ position: 'relative' }}>
             <Box sx={{
@@ -398,6 +397,22 @@ export default function EditCollection() {
           </Box>
         </form>
       </Box>
+      <Button
+        startIcon={<ArrowBack sx={{ fontSize: 20 }} />}
+        sx={{
+          position: 'fixed',
+          left: 20,
+          top: 100,
+          color: '#000',
+          fontSize: 20,
+          fontFamily: 'Georgia',
+        }}
+        onClick={() => {
+          Router.back();
+        }}
+      >
+        back
+      </Button>
     </Container>
   );
 }

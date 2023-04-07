@@ -5,9 +5,10 @@ import Box from '@mui/material/Box';
 import { Button, Grid } from '@mui/material';
 import Router from 'next/router';
 import { useAccount } from 'wagmi';
+import { toast } from 'react-toastify';
 import { queryCollections, updateCollection } from '../src/services/launchpad';
 import CustomizedMenus from '../src/components/CustomizedMenus';
-import { CollectionStatus } from '../src/config/constant';
+import { CollectionStatus, CollectionStatusMap } from '../src/config/constant';
 import ResponsiveDialog from '../src/components/ResponsiveDialog';
 
 type Collection ={
@@ -50,9 +51,21 @@ export default function MyCollections() {
     }
   }, [seletedId]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (seletedId && seletedId !== -1) {
-      console.log('delete', seletedId);
+      try {
+        const res = await updateCollection({
+          id: seletedId,
+          status: CollectionStatusMap?.Deleted,
+        });
+        if (res === 'success') {
+          toast.success('Collection Deleted');
+          setCollections(collections.filter((item) => (item.id !== seletedId)));
+          setSeletedId(-1);
+        }
+      } catch (error) {
+        console.log('error');
+      }
     }
   };
 

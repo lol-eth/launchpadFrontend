@@ -23,7 +23,7 @@ function MyDropzone({ setImageUrl, imageUrl }:any) {
     const userString:any = localStorage.getItem('userInfo');
     const userInfo = JSON.parse(userString);
     if (userInfo?.id) {
-      if (Router?.router?.state?.pathname === '/signup') {
+      if (window?.location?.pathname === '/signup') {
         Router.push('/myCollections');
       }
     }

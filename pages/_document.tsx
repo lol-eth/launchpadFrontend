@@ -23,7 +23,7 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
       <Head>
         {/* PWA primary color */}
         <meta name="theme-color" content={theme.palette.primary.main} />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/ezIcon.png" />
         <meta name="emotion-insertion-point" content="" />
         {emotionStyleTags}
       </Head>
@@ -62,18 +62,17 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
 
   const originalRenderPage = ctx.renderPage;
 
-  // You can consider sharing the same Emotion cache between all the SSR requests to speed up performance.
+  // You can consider sharing the same Emotion cache
+  // between all the SSR requests to speed up performance.
   // However, be aware that it can have global side effects.
   const cache = createEmotionCache();
   const { extractCriticalToChunks } = createEmotionServer(cache);
 
-  ctx.renderPage = () =>
-    originalRenderPage({
-      enhanceApp: (App: React.ComponentType<React.ComponentProps<AppType> & MyAppProps>) =>
-        function EnhanceApp(props) {
-          return <App emotionCache={cache} {...props} />;
-        },
-    });
+  ctx.renderPage = () => originalRenderPage({
+    enhanceApp: (App: React.ComponentType<React.ComponentProps<AppType> & MyAppProps>) => function EnhanceApp(props) {
+      return <App emotionCache={cache} {...props} />;
+    },
+  });
 
   const initialProps = await Document.getInitialProps(ctx);
   // This is important. It prevents Emotion to render invalid HTML.

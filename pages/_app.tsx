@@ -14,9 +14,10 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import '@rainbow-me/rainbowkit/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import Router from 'next/router';
+import { ArrowBack } from '@mui/icons-material';
 import Header from '../src/components/Header';
 import createEmotionCache from '../src/components/createEmotionCache';
 import theme from '../src/theme';
@@ -63,14 +64,15 @@ export default function MyApp(props: MyAppProps) {
       signIn({ walletAddress: account?.address }).then((userInfo) => {
         if (account?.address === userInfo?.walletAddress) {
           localStorage.setItem('userInfo', JSON.stringify(userInfo));
-          if (Router?.router?.state?.pathname === '/signup') {
+          // window?.location?.search?.split('?cid=')?.[1];
+          if (window?.location?.pathname === '/signup') {
             Router.push('/myCollections');
           }
         }
       });
     } else {
       localStorage.removeItem('userInfo');
-      if (Router?.router?.state?.pathname === '/myCollections') {
+      if (window?.location?.pathname === '/myCollections') {
         Router.push('/signup');
       }
     }

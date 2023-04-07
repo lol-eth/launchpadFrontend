@@ -1,6 +1,9 @@
 export const BASE_URL = 'https://launchpadtest.ezswap.io/api/';
 
-export const CollectionStatus = {
+type StatusType = {
+  [key: number]: string
+}
+export const CollectionStatus: StatusType = {
   0: 'Deleted',
   1: 'Draft',
   2: 'Deployed',

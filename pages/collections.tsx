@@ -6,6 +6,7 @@ import { Button, Grid } from '@mui/material';
 import Router from 'next/router';
 import { useAccount } from 'wagmi';
 import { queryCollections } from '../src/services/launchpad';
+import { CollectionStatus } from '../src/config/constant';
 
 export default function MyCollections() {
   const [collections, setCollections] = useState<any[]>([]);
@@ -29,6 +30,17 @@ export default function MyCollections() {
       <Box
         sx={{ width: '100%', mt: 8 }}
       >
+        <Typography
+          variant="h2"
+          component="h1"
+          gutterBottom
+          sx={{
+            fontFamily: 'Georgia',
+            fontSize: 60,
+          }}
+        >
+          Live Collection on Artez
+        </Typography>
         <Grid
           container
           sx={{
@@ -80,14 +92,20 @@ export default function MyCollections() {
                     left: 0,
                     p: 1,
                     fontSize: 20,
+                    background: 'rgba(255,255,255,0.3)',
+                    width: '100%',
                   }}
                   >
                     {c?.collectionName}
                   </Typography>
                 </Box>
                 <Box sx={{ px: 1, mt: 2 }}>
-                  <Typography>mint</Typography>
-                  <Typography>09/10/2000</Typography>
+                  <Typography>
+                    Status:
+                    {' '}
+                    {CollectionStatus[(c?.status || 1)]}
+                  </Typography>
+                  {/* <Typography>09/10/2000</Typography> */}
                 </Box>
               </Box>
             </Grid>

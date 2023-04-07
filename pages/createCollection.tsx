@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { useAccount } from 'wagmi';
 import Router from 'next/router';
 import dayjs from 'dayjs';
+import { ArrowBack } from '@mui/icons-material';
 import { uploadImage } from '../src/services/account';
 import { createCollection } from '../src/services/launchpad';
 import { CollectionStatusMap } from '../src/config/constant';
@@ -169,12 +170,9 @@ export default function CreateCollection() {
           width: 640,
           display: 'flex',
           flexDirection: 'column',
-          mt: 6,
+          mt: 14,
         }}
       >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Back
-        </Typography>
         <Box>
           <Box sx={{ position: 'relative' }}>
             <Box sx={{
@@ -417,6 +415,22 @@ export default function CreateCollection() {
           </Box>
         </form>
       </Box>
+      <Button
+        startIcon={<ArrowBack sx={{ fontSize: 20 }} />}
+        sx={{
+          position: 'fixed',
+          left: 20,
+          top: 100,
+          color: '#000',
+          fontSize: 20,
+          fontFamily: 'Georgia',
+        }}
+        onClick={() => {
+          Router.back();
+        }}
+      >
+        back
+      </Button>
     </Container>
   );
 }

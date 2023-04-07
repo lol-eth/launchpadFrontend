@@ -2,12 +2,15 @@
   "name": "material-next-ts",
   "version": "5.0.0",
   "private": true,
+  "homepage": "https://EZswap-Labs.github.io/launchpadFrontend/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -23,6 +26,7 @@
     "@rainbow-me/rainbowkit-siwe-next-auth": "^0.1.8",
     "dayjs": "^1.11.7",
     "formik": "^2.2.9",
+    "gh-pages": "^5.0.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
