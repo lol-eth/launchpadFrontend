@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import Router from 'next/router';
-import { useAccount } from 'wagmi';
+import { useRouter } from 'next/router';
 import {
   Grid, Container, Typography, Box,
 } from '@mui/material';
@@ -9,11 +8,22 @@ import HorizontalLinearStepper from '../src/components/HorizontalLinearStepper';
 
 export default function Signup() {
   const [collection, setCollection] = useState<any>({});
+  // 这个路由很奇怪，刷新页面，参数就拿不到了
+  const router = useRouter();
   useEffect(() => {
-    queryCollections({ id: 5 }).then((res) => {
-      console.log('res', res);
-      setCollection(res?.[4] || {});
-    });
+    let { cid } = router.query;
+    if (cid) {
+      queryCollections({ id: cid }).then((res) => {
+        setCollection(res?.[0] || {});
+      });
+    } else {
+      cid = window?.location?.search?.split('?cid=')?.[1];
+      if (cid) {
+        queryCollections({ id: cid }).then((res) => {
+          setCollection(res?.[0] || {});
+        });
+      }
+    }
   }, []);
   return (
     <Container

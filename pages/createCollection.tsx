@@ -189,6 +189,7 @@ export default function Signup() {
                   sx={{
                     width: '100%',
                     objectFit: 'cover',
+                    height: 140,
                   }}
                 />
               ) : null}

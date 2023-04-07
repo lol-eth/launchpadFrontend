@@ -114,31 +114,44 @@ export default function MyCollections() {
                     Router.push(`/collectionInfo?cid=${c?.id}`);
                   }}
                 >
-                  <Box sx={{ position: 'relative' }}>
-                    <Box
-                      component="img"
-                      src={c?.imgUrl}
-                      alt="imgUrl"
-                      sx={{
-                        maxWidth: '100%',
-                      }}
-                    />
+                  <Box sx={{
+                    position: 'relative',
+                  }}
+                  >
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      background: '#eee',
+                    }}
+                    >
+                      <Box
+                        component="img"
+                        src={c?.imgUrl}
+                        alt="imgUrl"
+                        sx={{
+                          maxWidth: '100%',
+                          maxHeight: 200,
+                          objectFit: 'contain',
+                        }}
+                      />
+                    </Box>
                     <Typography sx={{
                       position: 'absolute',
-                      bottom: 10,
+                      bottom: -10,
                       left: 0,
-                      p: 2,
+                      p: 1,
                       fontSize: 20,
                     }}
                     >
                       {c?.collectionName}
                     </Typography>
                   </Box>
-                  <Box sx={{ px: 2 }}>
+                  <Box sx={{ px: 1, mt: 2 }}>
                     <Typography>mint</Typography>
                     <Typography>09/10/2000</Typography>
                   </Box>
-                  <Button
+                  {/* <Button
                     sx={{
                       background: '#000',
                       color: '#fff',
@@ -154,7 +167,7 @@ export default function MyCollections() {
                     }}
                   >
                     Edit
-                  </Button>
+                  </Button> */}
                 </Box>
               </Grid>
             ))}
