@@ -64,7 +64,7 @@ export default function Home() {
               color: '#000',
             },
           }}
-          endIcon={<ArrowForwardIcon />}
+          endIcon={<ArrowForwardIcon sx={{ fontSize: 40 }} />}
           onClick={() => {
             Router.push(userInfo?.id ? '/myCollections' : '/signup');
           }}
@@ -86,6 +86,7 @@ export default function Home() {
             }}
           >
             View Live Collections on Artez
+            <ArrowForwardIcon sx={{ ml: 1, fontSize: 16 }} />
           </Link>
         </Box>
       </Box>

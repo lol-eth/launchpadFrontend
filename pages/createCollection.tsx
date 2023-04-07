@@ -18,6 +18,7 @@ import Router from 'next/router';
 import dayjs from 'dayjs';
 import { uploadImage } from '../src/services/account';
 import { createCollection } from '../src/services/launchpad';
+import { CollectionStatusMap } from '../src/config/constant';
 
 function UploadBanner({ setImageUrl }:any) {
   const onDrop = useCallback(async (acceptedFiles:any) => {
@@ -69,7 +70,7 @@ function UploadArtwork({ setArtImageUrl }:any) {
     </div>
   );
 }
-export default function Signup() {
+export default function CreateCollection() {
   const [imageUrl, setImageUrl] = useState('');
   const [artImageUrl, setArtImageUrl] = useState('');
   const account = useAccount();
@@ -91,6 +92,7 @@ export default function Signup() {
       royalties: 0,
       publicStartTime: Date.now(),
       publicEndTime: Date.now(),
+      status: CollectionStatusMap?.Draft,
     },
     validationSchema: Yup.object({
       symbol: Yup
@@ -124,7 +126,8 @@ export default function Signup() {
       console.log('formik?.values', formik?.values);
 
       const {
-        symbol, description, collectionName, royalties, publicStartTime, publicEndTime, price,
+        symbol, description, collectionName, royalties,
+        publicStartTime, publicEndTime, price, status,
       } = formik?.values || {};
       const data = {
         symbol,
@@ -138,6 +141,7 @@ export default function Signup() {
         bannerUrl: imageUrl,
         imgUrl: artImageUrl,
         userId: userInfo?.id,
+        status,
       };
       try {
         const res = await createCollection(data);
@@ -371,7 +375,6 @@ export default function Signup() {
               color="primary"
               disabled={formik.isSubmitting}
               size="large"
-              type="submit"
               variant="contained"
               sx={{
                 background: '#000',
@@ -382,6 +385,10 @@ export default function Signup() {
                 '&:hover': {
                   background: '#000',
                 },
+              }}
+              onClick={() => {
+                formik.setFieldValue('status', CollectionStatusMap?.Deployed);
+                formik.submitForm();
               }}
             >
               Deploy
@@ -399,6 +406,10 @@ export default function Signup() {
                 '&:hover': {
                   background: '#fff',
                 },
+              }}
+              onClick={() => {
+                formik.setFieldValue('status', CollectionStatusMap?.Draft);
+                formik.submitForm();
               }}
             >
               Save as Draft

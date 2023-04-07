@@ -40,6 +40,26 @@ export const createCollection = async (params: any) => {
   }
 };
 
+export const updateCollection = async (params: any) => {
+  try {
+    const response = await fetch(`${BASE_URL}launchpad/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
+    const result = await response.json();
+    if (result?.success) {
+      return 'success';
+    }
+    return '';
+  } catch (error) {
+    console.error('Error:', error);
+    return '';
+  }
+};
+
 export const uploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append('file', file);

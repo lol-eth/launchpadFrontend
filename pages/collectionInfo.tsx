@@ -41,19 +41,23 @@ export default function Signup() {
       >
         <Grid container>
           <Grid item xs={5}>
-            <Box sx={{ p: 4, background: '#fff' }}>
+            <Box sx={{
+              p: 1, background: '#fff', display: 'flex', justifyContent: 'center', minHeight: 400,
+            }}
+            >
               <Box
                 component="img"
                 src={collection?.imgUrl}
                 alt="test"
                 sx={{
                   maxWidth: '100%',
+                  maxHeight: 400,
                 }}
               />
             </Box>
           </Grid>
           <Grid item xs={7}>
-            <Box sx={{ m: 4 }}>
+            <Box sx={{ p: 4, border: '1px solid #fff', ml: 4 }}>
               <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'left' }}>{collection?.collectionName}</Typography>
               <Box sx={{
                 display: 'flex',
@@ -63,7 +67,7 @@ export default function Signup() {
               >
                 <Box
                   component="img"
-                  src={collection?.imgUrl}
+                  src={collection?.userAccount?.userLogo}
                   alt="test"
                   sx={{
                     width: '40px',
@@ -80,11 +84,11 @@ export default function Signup() {
                     ml: 2,
                   }}
                 >
-                  {collection?.userName || 'userName'}
+                  {collection?.userAccount?.userName || 'userName'}
                 </Typography>
               </Box>
               <Typography variant="body1" component="p" gutterBottom sx={{ textAlign: 'left' }}>
-                9999999 Minted
+                9999 Minted
               </Typography>
               <Typography variant="body1" component="p" gutterBottom sx={{ textAlign: 'left' }}>
                 {collection?.description}

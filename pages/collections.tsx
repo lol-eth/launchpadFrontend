@@ -1,11 +1,19 @@
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
-import Link from '../src/components/Link';
+import { Button, Grid } from '@mui/material';
+import Router from 'next/router';
+import { useAccount } from 'wagmi';
+import { queryCollections } from '../src/services/launchpad';
 
-const clist = [1, 2, 3, 4, 5, 6];
-export default function Collections() {
+export default function MyCollections() {
+  const [collections, setCollections] = useState<any[]>([]);
+  useEffect(() => {
+    queryCollections({}).then((res) => {
+      setCollections(res);
+    });
+  }, []);
   return (
     <Container
       maxWidth="lg"
@@ -15,48 +23,73 @@ export default function Collections() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
+        overflow: 'scroll',
       }}
     >
       <Box
-        sx={{ width: '100%' }}
+        sx={{ width: '100%', mt: 8 }}
       >
-        <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'left' }}>Live Collection on Artez</Typography>
-        <Grid container>
-          {clist?.map((c) => (
-            <Grid item xs={4} key={c}>
-              <Link href={`/collectionInfo?cid=${c}`} color="secondary">
-                <Box sx={{
+        <Grid
+          container
+          sx={{
+            minHeight: '500px',
+          }}
+        >
+          {collections?.map((c) => (
+            <Grid item xs={4} key={c?.id}>
+              <Box
+                sx={{
                   background: '#fff',
                   mr: 2,
                   mt: 2,
                   p: 2,
+                  cursor: 'pointer',
+                  minHeight: '300px',
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  Router.push(`/collectionInfo?cid=${c?.id}`);
+                }}
+              >
+                <Box sx={{
+                  position: 'relative',
                 }}
                 >
-                  <Box sx={{ position: 'relative' }}>
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: '#eee',
+                    minHeight: '200px',
+                  }}
+                  >
                     <Box
                       component="img"
-                      src="/watercolour.png"
-                      alt="test"
+                      src={c?.imgUrl}
+                      alt="imgUrl"
                       sx={{
                         maxWidth: '100%',
+                        maxHeight: 200,
+                        objectFit: 'contain',
                       }}
                     />
-                    <Typography sx={{
-                      position: 'absolute',
-                      bottom: 10,
-                      left: 0,
-                      p: 2,
-                    }}
-                    >
-                      name
-                    </Typography>
                   </Box>
-                  <Box sx={{ px: 2 }}>
-                    <Typography>mint</Typography>
-                    <Typography>09/10/2000</Typography>
-                  </Box>
+                  <Typography sx={{
+                    position: 'absolute',
+                    bottom: -10,
+                    left: 0,
+                    p: 1,
+                    fontSize: 20,
+                  }}
+                  >
+                    {c?.collectionName}
+                  </Typography>
                 </Box>
-              </Link>
+                <Box sx={{ px: 1, mt: 2 }}>
+                  <Typography>mint</Typography>
+                  <Typography>09/10/2000</Typography>
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>

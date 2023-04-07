@@ -5,12 +5,26 @@ import Box from '@mui/material/Box';
 import { Button, Grid } from '@mui/material';
 import Router from 'next/router';
 import { useAccount } from 'wagmi';
-import { queryCollections } from '../src/services/launchpad';
+import { queryCollections, updateCollection } from '../src/services/launchpad';
+import CustomizedMenus from '../src/components/CustomizedMenus';
+import { CollectionStatus } from '../src/config/constant';
+import ResponsiveDialog from '../src/components/ResponsiveDialog';
+
+type Collection ={
+  id:number;
+  status:number;
+  imgUrl:string;
+  collectionName:string;
+};
 
 export default function MyCollections() {
   const account = useAccount();
   const [userInfo, setUserInfo] = useState<any>(null);
   const [collections, setCollections] = useState<any[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const [seletedId, setSeletedId] = useState<number>(-1);
+  const [option, setOption] = useState<string>('');
+
   useEffect(() => {
     const userString:any = localStorage.getItem('userInfo');
     const info = JSON.parse(userString);
@@ -24,6 +38,24 @@ export default function MyCollections() {
       Router.push('/signup');
     }
   }, []);
+  useEffect(() => {
+    if (seletedId && seletedId !== -1 && option === 'delete') {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+    if (seletedId && seletedId !== -1 && option === 'edit') {
+      console.log('edit', seletedId);
+      Router.push(`/editCollection?cid=${seletedId}`);
+    }
+  }, [seletedId]);
+
+  const handleDelete = () => {
+    if (seletedId && seletedId !== -1) {
+      console.log('delete', seletedId);
+    }
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -99,7 +131,7 @@ export default function MyCollections() {
               minHeight: '500px',
             }}
           >
-            {collections?.map((c) => (
+            {collections?.map((c:Collection) => (
               <Grid item xs={4} key={c?.id}>
                 <Box
                   sx={{
@@ -108,6 +140,8 @@ export default function MyCollections() {
                     mt: 2,
                     p: 2,
                     cursor: 'pointer',
+                    minHeight: '300px',
+                    borderRadius: '8px',
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -123,6 +157,8 @@ export default function MyCollections() {
                       justifyContent: 'center',
                       alignItems: 'center',
                       background: '#eee',
+                      minHeight: '200px',
+                      borderRadius: '8px',
                     }}
                     >
                       <Box
@@ -142,14 +178,32 @@ export default function MyCollections() {
                       left: 0,
                       p: 1,
                       fontSize: 20,
+                      background: 'rgba(255,255,255,0.3)',
+                      width: '100%',
                     }}
                     >
                       {c?.collectionName}
                     </Typography>
+                    <Box sx={{
+                      position: 'absolute',
+                      top: 2,
+                      right: 4,
+                    }}
+                    >
+                      <CustomizedMenus
+                        id={c?.id}
+                        setSeletedId={setSeletedId}
+                        setOption={setOption}
+                      />
+                    </Box>
                   </Box>
                   <Box sx={{ px: 1, mt: 2 }}>
-                    <Typography>mint</Typography>
-                    <Typography>09/10/2000</Typography>
+                    <Typography>
+                      Status:
+                      {' '}
+                      {CollectionStatus[(c?.status || 1)]}
+                    </Typography>
+                    {/* <Typography>09/10/2000</Typography> */}
                   </Box>
                   {/* <Button
                     sx={{
@@ -174,6 +228,7 @@ export default function MyCollections() {
           </Grid>
         </Box>
       ) : null}
+      <ResponsiveDialog setOpen={setOpen} open={open} handleComfirm={handleDelete} />
     </Container>
   );
 }
