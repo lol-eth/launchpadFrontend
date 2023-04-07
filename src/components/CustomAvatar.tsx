@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
 
-function CustomAvatar({ size }:any) {
-  const account = useAccount();
+function CustomAvatar({ address, size }:any) {
   const [userInfo, setUserInfo] = useState<any>(null);
   useEffect(() => {
-    const userString:any = localStorage.getItem('userInfo');
-    const info = JSON.parse(userString);
-    if (info?.walletAddress === account?.address) {
-      setUserInfo(info);
-    }
-  }, [account?.address]);
+    setTimeout(() => {
+      const userString:any = localStorage.getItem('userInfo');
+      const info = JSON.parse(userString);
+      if (info?.walletAddress === address) {
+        setUserInfo(info);
+      }
+    }, 1000);
+  }, [address]);
   return userInfo?.userLogo ? (
     <img
       src={userInfo?.userLogo}
